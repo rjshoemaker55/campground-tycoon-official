@@ -1,0 +1,52 @@
+.playWrapper {
+  width: 1000px;
+  margin: 40px auto 40px auto;
+
+  .statusBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    background-color: rgb(56, 56, 56);
+    border-radius: 10px;
+    padding: 4px 15px;
+
+    .userStatus {
+      display: flex;
+      gap: 30px;
+      justify-content: flex-start;
+      align-items: center;
+
+      p {
+        font-size: 14px;
+        margin: 0;
+
+        span {
+          color: white;
+        }
+        &.username {
+          color: green;
+        }
+      }
+
+      .logout {
+        color: rgb(255, 137, 137);
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+
+    .title {
+      font-size: 20px;
+      color: #ea8aff;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+
+  .buttonBar {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+  }
+}

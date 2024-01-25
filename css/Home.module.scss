@@ -1,0 +1,30 @@
+.homeWrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.indicator {
+  background-image: linear-gradient(to right, var(--mantine-color-pink-filled), var(--mantine-color-orange-filled));
+}
+
+.control {
+  &::before {
+    display: none;
+  }
+}
+
+.label {
+  &,
+  &:hover {
+    &[data-active] {
+      color: var(--mantine-color-white);
+    }
+  }
+}
+
+.errorMessage {
+  color: rgb(172, 20, 20);
+  font-size: 14px;
+}

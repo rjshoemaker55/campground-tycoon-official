@@ -1,0 +1,121 @@
+.map {
+  height: 600px;
+  width: 1000px;
+  background-color: #7cfc00;
+  border-radius: 10px;
+  display: grid;
+  margin: auto;
+  grid-template-columns: repeat(10, 1fr); // Adjust the number of columns as needed
+  grid-template-rows: repeat(6, 1fr);
+  overflow: hidden;
+
+  .mapTile {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border: 1px dotted rgba(255, 255, 255, 0.57);
+    transition: background 0.3s ease-in-out;
+    cursor: pointer;
+
+    background: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 100%);
+
+    &:hover {
+      background: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 97%);
+    }
+
+    &.noHover:not(.active) {
+      pointer-events: none;
+
+      &:hover {
+        background: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 100%);
+      }
+    }
+
+    &.active {
+      background: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.5) 97%);
+    }
+
+    .tileContents {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    img {
+      width: 70%;
+      height: 70%;
+      text-align: center;
+    }
+
+    .tileActions {
+      position: absolute;
+      left: calc(100% + 5px);
+      top: 5px;
+      display: none;
+      z-index: 100;
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+
+      &.show {
+        display: flex;
+      }
+
+      button {
+        border: 1px solid black;
+        border-radius: 5px;
+        color: black;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        transition-duration: 0.3s;
+        z-index: 100;
+        cursor: pointer;
+        font-size: 14px;
+        display: none;
+
+        &.build {
+          background-color: rgba(74, 255, 182, 0.693);
+
+          &:hover {
+            background-color: rgba(74, 255, 182, 1);
+          }
+        }
+
+        &.show {
+          display: flex;
+        }
+
+        &.close {
+          background-color: rgba(255, 155, 155, 0.8);
+          display: flex;
+
+          &:hover {
+            background-color: rgba(255, 155, 155, 1);
+          }
+        }
+
+        &.cabin {
+          color: white;
+          background-color: rgba(123, 63, 0, 0.8);
+
+          &:hover {
+            background-color: rgba(123, 63, 0, 1);
+          }
+        }
+
+        &.tent {
+          color: white;
+          background-color: rgba(4, 57, 0, 0.8);
+
+          &:hover {
+            background-color: rgba(4, 57, 0, 1);
+          }
+        }
+      }
+    }
+  }
+}

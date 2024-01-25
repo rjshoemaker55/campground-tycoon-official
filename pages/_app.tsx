@@ -1,33 +1,25 @@
-import "../css/style.css";
-import "../css/form.css";
 import Head from "next/head";
-import Link from "next/link";
 import type { AppProps } from "next/app";
+import "@mantine/core/styles.css";
+import { createTheme, MantineProvider } from "@mantine/core";
+import { Urbanist } from "next/font/google";
+const urbanist = Urbanist({ subsets: ["latin"] });
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false;
 
-function MyApp({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <main className={urbanist.className}>
       <Head>
-        <title>Pet Care App</title>
+        <title>Campground Tycoon</title>
       </Head>
 
-      <div className="top-bar">
-        <div className="nav">
-          <Link href="/">Home</Link>
-          <Link href="/new">Add Pet</Link>
-        </div>
-
-        <img
-          id="title"
-          src="https://upload.wikimedia.org/wikipedia/commons/1/1f/Pet_logo_with_flowers.png"
-          alt="pet care logo"
-        ></img>
-      </div>
-      <div className="wrapper grid">
+      <MantineProvider defaultColorScheme='dark'>
         <Component {...pageProps} />
-      </div>
-    </>
+      </MantineProvider>
+    </main>
   );
 }
 
-export default MyApp;
+export default App;
