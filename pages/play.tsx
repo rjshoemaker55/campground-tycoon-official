@@ -1,44 +1,68 @@
 import React, { useState, useEffect } from "react";
-import { Center } from "@mantine/core";
-import { LoggedInUser, UserDocument } from "../models/User";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
+import { useRouter } from "next/router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFloppyDisk, faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import Button from "../components/Button";
 import classes from "../css/Play.module.scss";
 import Map from "../components/Game/Map/Map";
-import Button from "../components/Button";
-import "@fortawesome/fontawesome-svg-core/styles.css";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightFromBracket, faRadiation } from "@fortawesome/free-solid-svg-icons";
 import TopBar from "../components/Game/TopBar";
+import { GameState } from "../types";
 
 const Play = () => {
-  const [user, setUser] = useState<LoggedInUser | null>(null);
+  const [gameState, setGameState] = useState<GameState>({ user: null, tiles: [] });
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchGameData = async () => {
       try {
         const userId = await getCookie("cgt-userid");
 
-        const response = await fetch(`/api/users/getLoggedInUser?userId=${userId}`);
-        const userData = await response.json();
+        // Get user data
+        const gameStateResponse = await fetch(`/api/users/getLoggedInUser?userId=${userId}`);
+        const gameStateData = await gameStateResponse.json();
 
-        await setUser(userData);
+        setGameState(gameStateData);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
-    fetchData();
-  }, []); // Empty dependency array ensures this effect runs once on mount
+    fetchGameData();
+  }, []);
 
-  console.log("user from play.tsx: " + JSON.stringify(user));
+  const saveGame = async () => {
+    const saveResponse = await fetch("/api/game/saveGame", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(gameState)
+    });
+
+    const saveData = saveResponse.json();
+    console.log(saveData);
+  };
+
+  const logOut = async () => {
+    await deleteCookie("cgt-userid");
+    router.push("/");
+  };
 
   return (
     <div className={classes.playWrapper}>
-      <TopBar user={user} />
-      <Map user={user} />
-      <div className={classes.buttonBar}>
-        <Button onClick={() => console.log("hi!")}>Hello</Button>
+      <TopBar gameState={gameState} />
+      <Map gameState={gameState} setGameState={setGameState} />
+      <div className={`${classes.bottomBar}`}>
+        <Button onClick={saveGame} variant='green'>
+          <FontAwesomeIcon icon={faFloppyDisk} />
+          Save Game
+        </Button>
+        <Button onClick={logOut} variant='red'>
+          <FontAwesomeIcon icon={faRightFromBracket} />
+          Log Out
+        </Button>
       </div>
     </div>
   );

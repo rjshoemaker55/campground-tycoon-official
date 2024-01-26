@@ -1,36 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { LoggedInUser } from "../../../models/User";
+import React, { useState } from "react";
 import classes from "../../../css/Map.module.scss";
-import Button from "../../Button";
 import MapTile from "./MapTile";
-import { TileDocument } from "../../../models/Tile";
+import { MapProps } from "../../../types";
 
-interface MapProps {
-  user: LoggedInUser | null;
-}
-
-const Map: React.FC<MapProps> = ({ user }) => {
-  const [tiles, setTiles] = useState<TileDocument[]>([]);
+const Map: React.FC<MapProps> = ({ gameState, setGameState }) => {
   const [tilesDisabled, setTilesDisabled] = useState(false);
 
-  useEffect(() => {
-    const fetchTiles = async () => {
-      try {
-        const response = await fetch(`/api/tiles/getUsersTiles?userId=${user?._id}`);
-        const data = await response.json();
-        setTiles(data.tiles);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchTiles();
-  }, [user]);
+  const updateTile = async (tileId: string, type: string, options?: any) => {
+    switch (type) {
+      case "build":
+        const updatedTiles = gameState.tiles.map((tile) => (tile._id === tileId ? { ...tile, contents: options.structureType } : tile));
+        setGameState({ ...gameState, tiles: updatedTiles });
+        setTilesDisabled(false);
+        break;
+
+      case "remove":
+        console.log(`Removing building from tile ${tileId}`);
+        break;
+
+      default:
+        console.log(`Unsupported action type: ${type}`);
+    }
+  };
 
   return (
     <div className={classes.map}>
-      {tiles.map((tile) => {
-        return <MapTile key={tile._id} tilesDisabled={tilesDisabled} setTilesDisabled={setTilesDisabled} hasCabin={tile.hasCabin} />;
-      })}
+      {gameState.tiles.map((tile) => (
+        <MapTile
+          key={tile._id}
+          tile={tile}
+          tilesDisabled={tilesDisabled}
+          setTilesDisabled={setTilesDisabled}
+          gameState={gameState}
+          updateTile={updateTile}
+          contents={tile.contents}
+        />
+      ))}
     </div>
   );
 };

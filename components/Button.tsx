@@ -9,7 +9,7 @@ const Button = (props: any) => {
     );
   } else if (props.onClick) {
     return (
-      <button onClick={props.onClick} className={classes.button}>
+      <button onClick={props.onClick} className={`${classes.button} ${classes[props.variant]}`}>
         {props.children}
       </button>
     );

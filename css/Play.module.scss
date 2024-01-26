@@ -1,6 +1,14 @@
 .playWrapper {
   width: 1000px;
   margin: 40px auto 40px auto;
+  padding-bottom: 40px;
+
+  & * {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+  }
 
   .statusBar {
     display: flex;
@@ -9,7 +17,7 @@
     margin-bottom: 10px;
     background-color: rgb(56, 56, 56);
     border-radius: 10px;
-    padding: 4px 15px;
+    padding: 6px 15px;
 
     .userStatus {
       display: flex;
@@ -38,15 +46,16 @@
 
     .title {
       font-size: 20px;
-      color: #ea8aff;
+      color: #ffffff;
       font-weight: bold;
       margin: 0;
     }
   }
 
-  .buttonBar {
+  .bottomBar {
     display: flex;
-    gap: 20px;
+    gap: 10px;
     margin-top: 10px;
+    justify-content: flex-end;
   }
 }

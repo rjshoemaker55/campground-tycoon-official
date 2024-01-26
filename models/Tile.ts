@@ -1,14 +1,14 @@
 import mongoose, { Document, Schema } from "mongoose";
-
-export interface TileDocument extends Document {
-  userId: string;
-  hasCabin: boolean;
-  position: number;
-}
+import { TileDocument } from "../types";
 
 const tileSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
-  hasCabin: { type: Boolean, default: false },
+  contents: {
+    type: String,
+    default: null,
+    required: false,
+    level: 1
+  },
   position: { type: Number, required: true }
 });
 

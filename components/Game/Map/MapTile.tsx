@@ -1,5 +1,7 @@
+// MapTile.tsx
 import Image from "next/image";
 import { useState } from "react";
+import { MapTileProps } from "../../../types";
 import classes from "../../../css/Map.module.scss";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import cabinImage from "../../../assets/images/cabin.svg";
@@ -8,16 +10,9 @@ import tentImage from "../../../assets/images/tent.svg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHammer, faXmark, faHouseChimney, faTent } from "@fortawesome/free-solid-svg-icons";
 
-interface MapTileProps {
-  tilesDisabled: boolean;
-  setTilesDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-  hasCabin: boolean;
-}
-
-const MapTile: React.FC<MapTileProps> = ({ tilesDisabled, setTilesDisabled, hasCabin }) => {
+const MapTile: React.FC<MapTileProps> = ({ tile, tilesDisabled, setTilesDisabled, updateTile, contents }) => {
   const [tileActive, setTileActive] = useState(false);
   const [currentAction, setCurrentAction] = useState("start");
-  const [tileContents, setTileContents] = useState("");
 
   const handleTileClick = () => {
     if (!tilesDisabled) {
@@ -33,8 +28,7 @@ const MapTile: React.FC<MapTileProps> = ({ tilesDisabled, setTilesDisabled, hasC
   };
 
   const handleBuild = (type: string) => {
-    console.log(`building ${type}`);
-    setTileContents(type);
+    updateTile(tile._id, "build", { structureType: type });
     setTileActive(false);
     setCurrentAction("start");
     setTilesDisabled(false);
@@ -43,7 +37,7 @@ const MapTile: React.FC<MapTileProps> = ({ tilesDisabled, setTilesDisabled, hasC
   return (
     <div className={`${classes.mapTile} ${tilesDisabled && classes.noHover} ${tileActive && classes.active}`} onClick={handleTileClick}>
       <div className={`${classes.tileContents}`}>
-        {tileContents === "cabin" ? <Image src={cabinImage} alt='Cabin' /> : tileContents === "tent" ? <Image src={tentImage} alt='Tent' /> : ""}
+        {contents === "cabin" ? <Image src={cabinImage} alt='Cabin' /> : contents === "tent" ? <Image src={tentImage} alt='Tent' /> : ""}
       </div>
       <div className={`${classes.tileActions} ${tileActive && classes.show}`}>
         <button onClick={() => setCurrentAction("build")} className={`${classes.build} ${currentAction === "start" && classes.show}`}>

@@ -3,7 +3,31 @@
   border-radius: 8px;
   padding: 5px 10px;
   font-size: 15px;
-  color: white;
+  transition-duration: 0.3s;
   font-weight: bold;
-  border: none;
+  cursor: pointer;
+
+  &.green {
+    color: white;
+    background-color: green;
+    border: 2px solid green;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &.red {
+    color: white;
+    background-color: rgb(255, 71, 71);
+    border: 2px solid rgb(255, 71, 71);
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  svg {
+    margin-right: 10px;
+  }
 }
